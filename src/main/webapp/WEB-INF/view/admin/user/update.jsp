@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create user page</title>
+    <title>Update a user</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
           crossorigin="anonymous">
@@ -18,18 +18,23 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 col-12 mx-auto">
-            <h3>Create a user</h3>
+            <h3>Update a user</h3>
             <hr>
-            <form:form action="/admin/user/create" method="post" modelAttribute="newUser">
-                <div class="mb-3">
+            <form:form action="/admin/user/update" method="post" modelAttribute="newUser">
+                <div class="mb-3" style="display: none">
+                    <label class="form-label">Id:</label>
+                    <form:input type="number" class="form-control" path="id"/>
+                </div>
+
+                <div class="mb-3" style="display: none">
                     <label class="form-label">Email:</label>
                     <form:input type="email" class="form-control" path="email"/>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Password:</label>
-                    <form:input type="password" class="form-control" path="password"/>
-                </div>
+                <%--                <div class="mb-3">--%>
+                <%--                    <label class="form-label">Password:</label>--%>
+                <%--                    <form:input type="password" class="form-control" path="password"/>--%>
+                <%--                </div>--%>
 
                 <div class="mb-3">
                     <label class="form-label">Phone number:</label>
@@ -46,7 +51,7 @@
                     <form:input type="text" class="form-control" path="address"/>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-warning">Update</button>
             </form:form>
         </div>
     </div>
