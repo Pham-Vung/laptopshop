@@ -9,5 +9,5 @@ public interface IUserService {
     List<User> getAllUsers();
     List<User> getAllUsersByEmail(String email);
     User getUserById(long id);
-//    void updateById(long id, User user);
+    void deleteUserById(long id);
 }

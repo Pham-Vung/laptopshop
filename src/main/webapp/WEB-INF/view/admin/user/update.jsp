@@ -26,9 +26,9 @@
                     <form:input type="number" class="form-control" path="id"/>
                 </div>
 
-                <div class="mb-3" style="display: none">
+                <div class="mb-3">
                     <label class="form-label">Email:</label>
-                    <form:input type="email" class="form-control" path="email"/>
+                    <form:input type="email" class="form-control" path="email" disabled="true"/>
                 </div>
 
                 <%--                <div class="mb-3">--%>

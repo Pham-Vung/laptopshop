@@ -33,8 +33,8 @@ public class UserService implements IUserService {
         return userRepository.findById(id);
     }
 
-//    @Override
-//    public void updateById(long id, User user) {
-//        userRepository.updateById(id, user);
-//    }
+    @Override
+    public void deleteUserById(long id) {
+        userRepository.deleteById(id);
+    }
 }
