@@ -1,4 +1,4 @@
-package org.example.laptopshop.controller;
+package org.example.laptopshop.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.example.laptopshop.entity.User;
@@ -28,7 +28,7 @@ public class UserController {
     public String getUserPage(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "admin/user/table-user";
+        return "admin/user/show";
     }
 
     @GetMapping("/create")
@@ -47,7 +47,7 @@ public class UserController {
     public String getUserDetailPage(Model model, @PathVariable long id) {
         model.addAttribute("id", id);
         model.addAttribute("user", userService.getUserById(id));
-        return "admin/user/show";
+        return "admin/user/detail";
     }
 
     @GetMapping("/update/{id}")
