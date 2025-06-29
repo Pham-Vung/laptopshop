@@ -2,10 +2,12 @@ package org.example.laptopshop.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.example.laptopshop.entity.User;
+import org.example.laptopshop.service.interfaces.IUploadService;
 import org.example.laptopshop.service.interfaces.IUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @RequestMapping("/admin/user")
 public class UserController {
     private final IUserService userService;
+    private final IUploadService uploadService;
 
     @GetMapping("/")
     public String getHomePage(Model model) {
@@ -38,8 +41,10 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String createUserPage(@ModelAttribute("newUser") User user, Model model) {
-        userService.handleSaveUser(user);
+    public String createUserPage(@ModelAttribute("newUser") User user, @RequestParam("vincentFile") MultipartFile file) {
+        String avatar = uploadService.handleSaveUploadFile(file, "avatar");
+
+//        userService.handleSaveUser(user);
         return "redirect:/admin/user";
     }
 
@@ -61,7 +66,7 @@ public class UserController {
     public String postUpdateUser(@ModelAttribute("newUser") User user, Model model) {
         System.out.println(user);
         User currentUser = userService.getUserById(user.getId());
-        System.out.println(currentUser);
+
         if (currentUser != null) {
             currentUser.setPhone(user.getPhone());
             currentUser.setFullName(user.getFullName());
