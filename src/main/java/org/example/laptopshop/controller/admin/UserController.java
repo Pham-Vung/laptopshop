@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.laptopshop.entity.User;
 import org.example.laptopshop.service.interfaces.IUploadService;
 import org.example.laptopshop.service.interfaces.IUserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
     private final IUploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String getHomePage(Model model) {
@@ -44,7 +46,14 @@ public class UserController {
     public String createUserPage(@ModelAttribute("newUser") User user, @RequestParam("vincentFile") MultipartFile file) {
         String avatar = uploadService.handleSaveUploadFile(file, "avatar");
 
-//        userService.handleSaveUser(user);
+        String hashPassword = passwordEncoder.encode(user.getPassword());
+
+        user.setPassword(hashPassword);
+        user.setAvatar(avatar);
+        user.setRole(userService.getRoleByName(user.getRole().getName()));
+
+        userService.handleSaveUser(user);
+
         return "redirect:/admin/user";
     }
 
@@ -64,7 +73,6 @@ public class UserController {
 
     @PostMapping("/update")
     public String postUpdateUser(@ModelAttribute("newUser") User user, Model model) {
-        System.out.println(user);
         User currentUser = userService.getUserById(user.getId());
 
         if (currentUser != null) {
