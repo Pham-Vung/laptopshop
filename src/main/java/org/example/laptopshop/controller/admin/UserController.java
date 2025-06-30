@@ -72,7 +72,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String postUpdateUser(@ModelAttribute("newUser") User user, Model model) {
+    public String postUpdateUser(@ModelAttribute("newUser") User user) {
         User currentUser = userService.getUserById(user.getId());
 
         if (currentUser != null) {
@@ -94,7 +94,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String postDeleteUser(Model model, @ModelAttribute("newUser") User user) {
+    public String postDeleteUser(@ModelAttribute("newUser") User user) {
         userService.deleteUserById(user.getId());
         return "redirect:/admin/user";
     }
