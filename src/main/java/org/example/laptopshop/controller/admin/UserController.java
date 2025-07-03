@@ -1,6 +1,9 @@
 package org.example.laptopshop.controller.admin;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
+import jakarta.validation.Valid;
+
 import org.example.laptopshop.entity.User;
 import org.example.laptopshop.service.interfaces.IUploadService;
 import org.example.laptopshop.service.interfaces.IUserService;
@@ -10,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,7 +46,8 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String createUserPage(@ModelAttribute("newUser") User user, @RequestParam("vincentFile") MultipartFile file) {
+    public String createUserPage(
+            @Valid @ModelAttribute("newUser") User user, @RequestParam("vincentFile") MultipartFile file) {
         String avatar = uploadService.handleSaveUploadFile(file, "avatar");
 
         String hashPassword = passwordEncoder.encode(user.getPassword());

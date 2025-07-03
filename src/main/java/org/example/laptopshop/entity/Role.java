@@ -1,10 +1,11 @@
 package org.example.laptopshop.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -23,10 +24,6 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Role{" + "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + '}';
     }
 }

@@ -1,10 +1,14 @@
 package org.example.laptopshop.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -15,9 +19,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
+    @Email
     private String email;
+
+    @NotNull
+    @Size(min = 3)
     private String password;
+
+    @NotNull
+    @Size(min = 2)
     private String fullName;
+
     private String address;
     private String phone;
     private String avatar;
@@ -31,14 +44,13 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", avatar='" + avatar + '\'' +
-                '}';
+        return "User{" + "id="
+                + id + ", email='"
+                + email + '\'' + ", password='"
+                + password + '\'' + ", fullName='"
+                + fullName + '\'' + ", address='"
+                + address + '\'' + ", phone='"
+                + phone + '\'' + ", avatar='"
+                + avatar + '\'' + '}';
     }
 }

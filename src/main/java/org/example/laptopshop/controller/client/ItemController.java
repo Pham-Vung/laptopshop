@@ -13,5 +13,4 @@ public class ItemController {
     public String getProductPage(@PathVariable long id) {
         return "client/product/detail";
     }
-
 }
