@@ -51,13 +51,23 @@
                                        modelAttribute="newUser" class="row"
                                        enctype="multipart/form-data">
                                 <div class="mb-3 col-12 col-md-6">
+                                    <c:set var="errorEmail">
+                                        <form:errors path="email" cssClass="invalid-feedback"/>
+                                    </c:set>
                                     <label class="form-label">Email:</label>
-                                    <form:input type="email" class="form-control" path="email"/>
+                                    <form:input type="email" path="email"
+                                                cssClass="${not empty errorEmail ? 'is-invalid' : ''} form-control"/>
+                                        ${errorEmail}
                                 </div>
 
                                 <div class="mb-3 col-12 col-md-6">
+                                    <c:set var="errorPassword">
+                                        <form:errors path="password" cssClass="invalid-feedback"/>
+                                    </c:set>
                                     <label class="form-label">Password:</label>
-                                    <form:input type="password" class="form-control" path="password"/>
+                                    <form:input type="password" path="password"
+                                                cssClass="${not empty errorPassword ? 'is-invalid' : ''} form-control"/>
+                                        ${errorPassword}
                                 </div>
 
                                 <div class="mb-3 col-12 col-md-6">
@@ -66,8 +76,13 @@
                                 </div>
 
                                 <div class="mb-3 col-12 col-md-6">
+                                    <c:set var="errorFullName">
+                                        <form:errors path="fullName" cssClass="invalid-feedback"/>
+                                    </c:set>
                                     <label class="form-label">Full Name:</label>
-                                    <form:input type="text" class="form-control" path="fullName"/>
+                                    <form:input type="text" class="form-control" path="fullName"
+                                                cssClass="${not empty errorFullName ? 'is-invalid' : ''} form-control"/>
+                                        ${errorFullName}
                                 </div>
 
                                 <div class="mb-3 col-12">

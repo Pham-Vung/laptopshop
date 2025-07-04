@@ -10,6 +10,8 @@ import org.example.laptopshop.service.interfaces.IUserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +28,6 @@ public class UserController {
     @GetMapping("/")
     public String getHomePage(Model model) {
         List<User> users = userService.getAllUsersByEmail("user2@gmail.com");
-        System.out.println(users);
 
         model.addAttribute("vincent", "test");
         return "hello";
@@ -47,7 +48,19 @@ public class UserController {
 
     @PostMapping("/create")
     public String createUserPage(
-            @Valid @ModelAttribute("newUser") User user, @RequestParam("vincentFile") MultipartFile file) {
+            @Valid @ModelAttribute("newUser") User user,
+            BindingResult newUserBindingResult,
+            @RequestParam("vincentFile") MultipartFile file) {
+
+        List<FieldError> errors = newUserBindingResult.getFieldErrors();
+        for (FieldError error : errors) {
+            System.out.println(error.getField() + "-" + error.getDefaultMessage());
+        }
+
+        if (newUserBindingResult.hasErrors()) {
+            return "admin/user/create";
+        }
+
         String avatar = uploadService.handleSaveUploadFile(file, "avatar");
 
         String hashPassword = passwordEncoder.encode(user.getPassword());
