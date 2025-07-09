@@ -21,7 +21,6 @@
     <p>
         ${message}
     </p>
-    <a href="/admin/product">Back</a>
 </div>
 </body>
 

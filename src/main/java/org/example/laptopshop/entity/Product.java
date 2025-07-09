@@ -1,7 +1,10 @@
 package org.example.laptopshop.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +30,7 @@ public class Product {
     private String image;
 
     @NotBlank(message = "Product description details cannot be left blank")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
 
     @NotBlank(message = "Product short description cannot be left blank")
