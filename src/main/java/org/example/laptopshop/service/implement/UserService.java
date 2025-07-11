@@ -1,7 +1,6 @@
 package org.example.laptopshop.service.implement;
 
-import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.example.laptopshop.entity.Role;
 import org.example.laptopshop.entity.User;
 import org.example.laptopshop.repository.RoleRepository;
@@ -9,7 +8,7 @@ import org.example.laptopshop.repository.UserRepository;
 import org.example.laptopshop.service.interfaces.IUserService;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
