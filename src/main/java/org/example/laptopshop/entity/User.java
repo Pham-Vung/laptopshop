@@ -1,15 +1,13 @@
 package org.example.laptopshop.entity;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,12 +18,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
-    @NotEmpty(message = "Email cannot be empty")
     private String email;
 
     @NotNull
-    @Size(min = 6, message = "Password minimum 6 characters")
+    @Size(min = 8, message = "Password minimum 8 characters")
     private String password;
 
     @NotNull

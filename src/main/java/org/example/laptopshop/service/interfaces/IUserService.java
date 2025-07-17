@@ -18,4 +18,5 @@ public interface IUserService {
 
     Role getRoleByName(String roleName);
 
+    boolean isEmailExist(String email);
 }
