@@ -1,9 +1,9 @@
 package org.example.laptopshop.validator;
 
+import java.lang.annotation.*;
+
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
-import java.lang.annotation.*;
 
 @Constraint(validatedBy = RegisterValidator.class)
 @Target({ElementType.TYPE}) // Adjusted to apply to the class level

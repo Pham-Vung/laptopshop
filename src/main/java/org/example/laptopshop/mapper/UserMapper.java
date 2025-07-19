@@ -7,6 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(target = "fullName", expression =  "java(request.getFirstName() + \" \" + request.getLastName())")
+    @Mapping(target = "fullName", expression = "java(request.getFirstName() + \" \" + request.getLastName())")
     User toUser(RegisterRequest request);
 }

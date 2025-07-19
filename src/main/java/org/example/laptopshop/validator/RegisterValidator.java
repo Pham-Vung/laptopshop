@@ -2,10 +2,12 @@ package org.example.laptopshop.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.RequiredArgsConstructor;
+
 import org.example.laptopshop.DTO.request.RegisterRequest;
 import org.example.laptopshop.service.interfaces.IUserService;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +19,7 @@ public class RegisterValidator implements ConstraintValidator<RegisterChecked, R
         boolean isValid = true;
 
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            context.buildConstraintViolationWithTemplate("Passwords must match")
+            context.buildConstraintViolationWithTemplate("Invalid confirmation password")
                     .addPropertyNode("confirmPassword")
                     .addConstraintViolation()
                     .disableDefaultConstraintViolation();
