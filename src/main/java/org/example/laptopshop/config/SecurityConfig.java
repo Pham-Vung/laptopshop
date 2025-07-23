@@ -13,10 +13,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import io.micrometer.core.instrument.binder.logging.LogbackMetrics;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
+    private final String[] PUBLIC_URLS = {
+        "/", "/login", "/client/**", "/css/**", "/js/**", "/images/**", "/register", "/product/**"
+    };
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -39,15 +45,26 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomSuccessHandler();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, LogbackMetrics logbackMetrics) throws Exception {
         http.authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                         .permitAll()
-                        .requestMatchers("/", "/login", "/client/**", "/css/**", "/js/**", "/images/**", "/register")
+                        .requestMatchers(PUBLIC_URLS)
                         .permitAll() // truy cap ma k can xac thuc
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
                         .anyRequest()
                         .authenticated())
-                .formLogin(formLogin ->
-                        formLogin.loginPage("/login").failureUrl("/login?error").permitAll());
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .failureUrl("/login?error")
+                        .successHandler(authenticationSuccessHandler())
+                        .permitAll())
+                .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/access-deny"));
 
         return http.build();
     }
