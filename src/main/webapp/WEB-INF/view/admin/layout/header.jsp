@@ -27,10 +27,10 @@
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
 
                 <li>
-                    <hr class="dropdown-divider"/>
+                    <hr class="dropdown-divider" />
                 </li>
                 <li>
-                    <form method="post" action="/logout">
+                    <form method="post" action="${pageContext.request.contextPath}/logout">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         <button class="dropdown-item">Logout</button>
                     </form>

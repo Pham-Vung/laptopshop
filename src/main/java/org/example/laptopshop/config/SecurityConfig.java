@@ -9,20 +9,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import io.micrometer.core.instrument.binder.logging.LogbackMetrics;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
     private final String[] PUBLIC_URLS = {
         "/", "/login", "/client/**", "/css/**", "/js/**", "/images/**", "/register", "/product/**"
     };
+
+    private final CustomSuccessHandler customSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,9 +49,18 @@ public class SecurityConfig {
         return authProvider;
     }
 
+    //    @Bean
+    //    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+    //        return new CustomSuccessHandler();
+    //    }
+
     @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomSuccessHandler();
+    public SpringSessionRememberMeServices rememberMeServices() {
+        SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
+
+        // optionally customize
+        rememberMeServices.setAlwaysRemember(true);
+        return rememberMeServices;
     }
 
     @Bean
@@ -59,12 +73,23 @@ public class SecurityConfig {
                         .hasRole("ADMIN")
                         .anyRequest()
                         .authenticated())
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                        .invalidSessionUrl("/logout?expired")
+                        .maximumSessions(1) // một tài khoản được sudungjg trên bao nhiêu thiết bị
+                        .maxSessionsPreventsLogin(false))
+                .rememberMe(r -> r.rememberMeServices(rememberMeServices()))
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/login?error")
-                        .successHandler(authenticationSuccessHandler())
+                        .successHandler(customSuccessHandler)
                         .permitAll())
-                .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/access-deny"));
+                .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/access-deny"))
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .permitAll());
 
         return http.build();
     }
