@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
-import io.micrometer.core.instrument.binder.logging.LogbackMetrics;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -45,14 +44,8 @@ public class SecurityConfig {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
-        //        authProvider.setHideUserNotFoundExceptions(false);
         return authProvider;
     }
-
-    //    @Bean
-    //    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-    //        return new CustomSuccessHandler();
-    //    }
 
     @Bean
     public SpringSessionRememberMeServices rememberMeServices() {
@@ -64,7 +57,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, LogbackMetrics logbackMetrics) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                         .permitAll()
                         .requestMatchers(PUBLIC_URLS)

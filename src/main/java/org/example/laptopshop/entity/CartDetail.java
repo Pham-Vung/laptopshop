@@ -1,6 +1,7 @@
 package org.example.laptopshop.entity;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -15,6 +16,7 @@ public class CartDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private long quantity;
     private double price;
 

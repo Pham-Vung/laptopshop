@@ -2,6 +2,7 @@ package org.example.laptopshop.controller.client;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
 import org.example.laptopshop.entity.Product;
 import org.example.laptopshop.service.interfaces.IProductService;
 import org.springframework.stereotype.Controller;

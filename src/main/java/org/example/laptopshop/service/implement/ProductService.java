@@ -1,7 +1,9 @@
 package org.example.laptopshop.service.implement;
 
+import java.util.List;
+
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
+
 import org.example.laptopshop.entity.Cart;
 import org.example.laptopshop.entity.CartDetail;
 import org.example.laptopshop.entity.Product;
@@ -14,7 +16,7 @@ import org.example.laptopshop.service.interfaces.IProductService;
 import org.example.laptopshop.service.interfaces.IUserService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -52,14 +54,12 @@ public class ProductService implements IProductService {
             Cart cart = cartRepository.findByUser(user);
             if (cart == null) {
                 // create cart
-                cart = cartRepository.save(Cart.builder()
-                        .user(user)
-                        .sum(0)
-                        .build());
+                cart = cartRepository.save(Cart.builder().user(user).sum(0).build());
             }
 
             // find product by id
-            Product product = productRepository.findById(productId)
+            Product product = productRepository
+                    .findById(productId)
                     .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
             CartDetail cartDetail = cartDetailRepository.findByCartAndProduct(cart, product);
@@ -80,7 +80,6 @@ public class ProductService implements IProductService {
                 cartDetail.setQuantity(cartDetail.getQuantity() + 1);
                 cartDetailRepository.save(cartDetail);
             }
-
         }
     }
 }
