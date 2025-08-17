@@ -1,5 +1,6 @@
 package org.example.laptopshop.service.implement;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.laptopshop.entity.Cart;
 import org.example.laptopshop.entity.CartDetail;
@@ -44,25 +45,42 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void handleAddProductToCart(long productId, String email) {
+    public void handleAddProductToCart(long productId, String email, HttpSession session) {
         User user = userService.getUserByEmail(email);
+
         if (user != null) {
             Cart cart = cartRepository.findByUser(user);
             if (cart == null) {
+                // create cart
                 cart = cartRepository.save(Cart.builder()
                         .user(user)
-                        .sum(1)
+                        .sum(0)
                         .build());
             }
+
             // find product by id
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new ProductNotFoundException("Product not found"));
-            cartDetailRepository.save(CartDetail.builder()
-                    .cart(cart)
-                    .price(product.getPrice())
-                    .product(product)
-                    .quantity(1)
-                    .build());
+
+            CartDetail cartDetail = cartDetailRepository.findByCartAndProduct(cart, product);
+            if (cartDetail == null) {
+                cartDetailRepository.save(CartDetail.builder()
+                        .cart(cart)
+                        .price(product.getPrice())
+                        .product(product)
+                        .quantity(1)
+                        .build());
+
+                // update cart (sum)
+                int s = cart.getSum() + 1;
+                cart.setSum(s);
+                cartRepository.save(cart);
+                session.setAttribute("sum", s);
+            } else {
+                cartDetail.setQuantity(cartDetail.getQuantity() + 1);
+                cartDetailRepository.save(cartDetail);
+            }
+
         }
     }
 }

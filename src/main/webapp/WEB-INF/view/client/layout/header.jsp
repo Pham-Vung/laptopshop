@@ -22,7 +22,7 @@
                             <i class="fa fa-shopping-bag fa-2x"></i>
                             <span
                                     class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${sessionScope.sum}</span>
                         </a>
                         <div class="dropdown my-auto">
                             <a href="#" class="dropdown" role="button" id="dropdownMenuLink"
@@ -47,8 +47,10 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <form method="post" action="/logout">
-                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                    <li><button class="dropdown-item">Đăng xuất</button></li>
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                    <li>
+                                        <button class="dropdown-item">Đăng xuất</button>
+                                    </li>
                                 </form>
                             </ul>
                         </div>
