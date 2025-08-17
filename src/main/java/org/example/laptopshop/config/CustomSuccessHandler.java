@@ -1,15 +1,10 @@
 package org.example.laptopshop.config;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import lombok.RequiredArgsConstructor;
 import org.example.laptopshop.entity.User;
 import org.example.laptopshop.service.interfaces.IUserService;
 import org.springframework.security.core.Authentication;
@@ -20,7 +15,10 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -78,5 +76,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
         session.setAttribute("fullName", user.getFullName());
         session.setAttribute("avatar", user.getAvatar());
+        session.setAttribute("id", user.getId());
+        session.setAttribute("email", user.getEmail());
     }
 }

@@ -16,7 +16,7 @@
             rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
@@ -41,9 +41,9 @@
 </div>
 <!-- Spinner End -->
 
-<jsp:include page="../layout/header.jsp"/>
+<jsp:include page="../layout/header.jsp" />
 
-<jsp:include page="../layout/banner.jsp"/>
+<jsp:include page="../layout/banner.jsp" />
 
 <!-- Fruits Shop Start-->
 <div class="container-fluid fruite py-5">
@@ -85,14 +85,21 @@
                                                     <a href="/product/${product.id}">${product.name}</a>
                                                 </h4>
                                                 <p style="font-size: 13px">${product.shortDesc}</p>
-                                                <div class="d-flex flex-lg-wrap">
-                                                    <p style="font-size: 15px; text-align: center; width: 100%" class="text-dark fw-bold mb-3">
+                                                <div class="d-flex flex-lg-wrap justify-content-center">
+                                                    <p style="font-size: 15px; text-align: center; width: 100%"
+                                                       class="text-dark fw-bold mb-3">
                                                         <fmt:formatNumber type="number" value="${product.price}" /> đ
                                                     </p>
-                                                    <a href="#"
-                                                       class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                            class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                        Add to cart</a>
+                                                    <form action="/product/add-product-to-cart/${product.id}" method="post">
+                                                        <input type="hidden" name="${_csrf.parameterName}"
+                                                               value="${_csrf.token}" />
+                                                        <button
+                                                                class="mx-auto btn border border-secondary rounded-pill px-3 text-primary">
+                                                            <i
+                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                            Add to cart
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -108,9 +115,9 @@
 </div>
 <!-- Fruits Shop End-->
 
-<jsp:include page="../layout/feature.jsp"/>
+<jsp:include page="../layout/feature.jsp" />
 
-<jsp:include page="../layout/footer.jsp"/>
+<jsp:include page="../layout/footer.jsp" />
 
 <!-- Back to Top -->
 <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i

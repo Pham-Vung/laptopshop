@@ -1,8 +1,8 @@
 package org.example.laptopshop.service.interfaces;
 
-import java.util.List;
-
 import org.example.laptopshop.entity.Product;
+
+import java.util.List;
 
 public interface IProductService {
     Product creatingProduct(Product product);
@@ -12,4 +12,6 @@ public interface IProductService {
     Product getProductById(long id);
 
     void deleteProductById(long id);
+
+    void handleAddProductToCart(long productId, String email);
 }
